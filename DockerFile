@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN apk --no-cache add sqlite
+
+COPY sql/create_tables.sql /create_tables.sql
+
+RUN sqlite3 /mydatabase.db < /create_tables.sql
+
+CMD ["sqlite3", "/mydatabase.db"]
