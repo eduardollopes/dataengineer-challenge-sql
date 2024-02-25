@@ -2,7 +2,7 @@
 
 
 Table "Customer" {
-  "customer_id" INT [pk]
+  "customer_id" INTEGER [pk]
   "email" VARCHAR(255)
   "first_name" VARCHAR(255)
   "last_name" VARCHAR(255)
@@ -12,31 +12,38 @@ Table "Customer" {
   "phone_number" VARCHAR(20)
 }
 
+Table "Seller" {
+  "seller_id" INTEGER [pk]
+  "customer_id" INTEGER
+  "order_id" INTEGER
+  "total_sales_january_2020" INTEGER
+}
+
 Table "Category" {
-  "category_id" INT [pk]
+  "category_id" INTEGER [pk]
   "description" VARCHAR(255)
 }
 
 Table "Item" {
-  "item_id" INT [pk]
-  "category_id" INT
+  "item_id" INTEGER [pk]
+  "category_id" INTEGER
   "name" VARCHAR(255)
   "price" DECIMAL(10,2)
   "status" VARCHAR(255)
-  "cancellation_date" DATE
+  "cancellation_date" TIMESTAMP
 }
 
 Table "Order" {
-  "order_id" INT [pk]
-  "customer_id" INT
-  "order_date" DATE
+  "order_id" INTEGER [pk]
+  "customer_id" INTEGER
+  "order_date" TIMESTAMP
   "total_order" DECIMAL(10,2)
 }
 
 Table "ItemOrder" {
-  "order_id" INT
-  "item_id" INT
-  "quantity" INT
+  "order_id" INTEGER
+  "item_id" INTEGER
+  "quantity" INTEGER
   "unit_price" DECIMAL(10,2)
 
 Indexes {
@@ -45,22 +52,25 @@ Indexes {
 }
 
 Table "Rating" {
-  "rating_id" INT [pk]
-  "customer_id" INT
-  "item_id" INT
-  "rating" INT
+  "rating_id" INTEGER [pk]
+  "customer_id" INTEGER
+  "item_id" INTEGER
+  "rating" INTEGER
   "comment" TEXT
-  "rating_date" DATE
+  "rating_date" TIMESTAMP
 }
 
 Table "HistoryUpdateItems" {
-  "history_id" INT [pk]
-  "item_id" INT
+  "history_id" INTEGER [pk]
+  "item_id" INTEGER
   "previous_price" DECIMAL(10,2)
   "previous_status" VARCHAR(255)
-  "update_date" DATE
+  "operation_type" VARCHAR(55)
+  "update_date" TIMESTAMP
 }
 
+Ref:"Customer"."customer_id" - "Seller"."customer_id"
+Ref:"Order"."order_id" - "Seller"."order_id"
 Ref:"Category"."category_id" < "Item"."category_id"
 Ref:"Customer"."customer_id" < "Order"."customer_id"
 Ref:"Order"."order_id" < "ItemOrder"."order_id"
@@ -68,3 +78,4 @@ Ref:"Item"."item_id" < "ItemOrder"."item_id"
 Ref:"Customer"."customer_id" < "Rating"."customer_id"
 Ref:"Item"."item_id" < "Rating"."item_id"
 Ref:"Item"."item_id" < "HistoryUpdateItems"."item_id"
+
