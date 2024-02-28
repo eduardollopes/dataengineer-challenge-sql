@@ -1,4 +1,4 @@
-# Data Engineer Challenge
+# Data Engineer Challenge SQL
 
 This repository contains the solution for the Data Engineer Challenge, including SQL scripts and Docker setup for an e-commerce database.
 
