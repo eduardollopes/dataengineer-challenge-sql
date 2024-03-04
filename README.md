@@ -1,40 +1,44 @@
-# Data Engineer Challenge SQL
+# Desafio de Engenheiro de Dados SQL
 
-This repository contains the solution for the Data Engineer Challenge, including SQL scripts and Docker setup for an e-commerce database.
+Este repositório contém a solução para o Desafio de Engenheiro de Dados, incluindo scripts SQL e configuração Docker para um banco de dados de comércio eletrônico.
 
 ## Overview
 
-The challenge involves creating SQL scripts to set up an e-commerce database and address specific business queries. Additionally, a Docker image is provided for easy deployment and testing.
+O desafio envolve a criação de scripts SQL para configurar um banco de dados de comércio eletrônico e resolver consultas específicas relacionadas aos negócios. Além disso, uma imagem Docker é fornecida para facilitar a implantação e teste.
 
-## Instructions
+## Instruções
 
-### Build Docker Image
+### Construir a Imagem Docker
 
-To build the Docker image, run the following commands:
+Para construir a imagem Docker, execute os seguintes comandos:
 
 ```bash
 docker build -t challenge-sql .
 ```
 
-### Run Docker Container
-After building the image, start a Docker container with the following command:
+### Execute Docker Container
+Após construir a imagem, inicie um contêiner Docker com o seguinte comando:
 
 ```bash
 docker run -it challenge-sql
 ```
 
-Finally, quit the console with the command `.exit`
+Finalmente, saia do console com o comando `.exit`
 
-## Diagram
-The challenge contains a proposal for data modeling according to the suggested needs and requirements.
+## Diagrama
+O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos.
+
+![Descrição da Imagem](diagrama/der.png)
+
 `diagram/der.png`: Image of the diagram suggested for solving the challenge.
 `diagram/diagram.txt`: Content generated through `create_tables.sql` at https://dbdiagram.io/
 
-## SQL Scripts
-`sql/create_table.sql`: Contains SQL statements to create tables for the e-commerce database.
-`sql/business_response.sql`: SQL queries providing solutions to business questions related to the e-commerce data.
-`sql/create_triggers`: This script contains the triggers needed to store the events in the `Item` table, for a `HistoryUpdateItems` table
-`sql/create_trigger_events.sql`: This is a script to test whether events are happening as expected.
 
-## Contributing
-Feel free to contribute by opening issues or submitting pull requests.
+## Scripts SQL
+`sql/create_table.sql`: Schema de tabelas para criação de um ambiente voltado para uma empresa de ecommerca.
+`sql/respuestas_negocio.sql`: Instruções SQL fornecendo soluções para perguntas do desafio.
+`sql/create_triggers`: Este script contém as triggers necessários para armazenar os eventos da tabela `Item`, para uma tabela `HistoryUpdateItems`.
+`sql/create_trigger_events.sql`: Este é um script para testar se os eventos estão ocorrendo conforme o esperado.
+
+## Contribuições
+Sinta-se à vontade para contribuir abrindo problemas ou enviando solicitações pull.

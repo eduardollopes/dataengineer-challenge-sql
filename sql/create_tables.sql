@@ -13,7 +13,7 @@ CREATE TABLE Seller (
     seller_id INTEGER PRIMARY KEY,
     customer_id INTEGER,
     order_id INTEGER, 
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (order_id) REFERENCES `Order`(order_id)
 );
 
@@ -71,4 +71,53 @@ CREATE TABLE HistoryUpdateItems (
     operation_type VARCHAR(55),
     update_date TIMESTAMP,
     FOREIGN KEY (item_id) REFERENCES Item(item_id)
+);
+
+CREATE TABLE Shipping (
+    shipping_id INTEGER PRIMARY KEY,
+    order_id INTEGER,
+    shipping_date TIMESTAMP,
+    shipping_cost DECIMAL(10, 2),
+    delivery_address VARCHAR(255),
+    FOREIGN KEY (order_id) REFERENCES `Order`(order_id)
+);
+
+CREATE TABLE PaymentMethod (
+    payment_method_id INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    method_name VARCHAR(255),
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+CREATE TABLE OrderPayment (
+    order_id INTEGER,
+    payment_method_id INTEGER,
+    payment_amount DECIMAL(10, 2),
+    PRIMARY KEY (order_id, payment_method_id),
+    FOREIGN KEY (order_id) REFERENCES `Order`(order_id),
+    FOREIGN KEY (payment_method_id) REFERENCES PaymentMethod(payment_method_id)
+);
+
+CREATE TABLE OrderShipping (
+    order_id INTEGER,
+    shipping_id INTEGER,
+    PRIMARY KEY (order_id, shipping_id),
+    FOREIGN KEY (order_id) REFERENCES `Order`(order_id),
+    FOREIGN KEY (shipping_id) REFERENCES Shipping(shipping_id)
+);
+
+CREATE TABLE SubscriptionPlan (
+    plan_id INTEGER PRIMARY KEY,
+    plan_name VARCHAR(255),
+    description TEXT
+);
+
+CREATE TABLE CustomerSubscription (
+    customer_id INTEGER,
+    plan_id INTEGER,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    PRIMARY KEY (customer_id, plan_id),
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (plan_id) REFERENCES SubscriptionPlan(plan_id)
 );

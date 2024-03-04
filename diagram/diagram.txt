@@ -16,11 +16,11 @@ Table "Seller" {
   "seller_id" INTEGER [pk]
   "customer_id" INTEGER
   "order_id" INTEGER
-  "total_sales_january_2020" INTEGER
 }
 
 Table "Category" {
   "category_id" INTEGER [pk]
+  "category" VARCHAR(255)
   "description" VARCHAR(255)
 }
 
@@ -69,8 +69,58 @@ Table "HistoryUpdateItems" {
   "update_date" TIMESTAMP
 }
 
-Ref:"Customer"."customer_id" - "Seller"."customer_id"
-Ref:"Order"."order_id" - "Seller"."order_id"
+Table "Shipping" {
+  "shipping_id" INTEGER [pk]
+  "order_id" INTEGER
+  "shipping_date" TIMESTAMP
+  "shipping_cost" DECIMAL(10,2)
+  "delivery_address" VARCHAR(255)
+}
+
+Table "PaymentMethod" {
+  "payment_method_id" INTEGER [pk]
+  "customer_id" INTEGER
+  "method_name" VARCHAR(255)
+}
+
+Table "OrderPayment" {
+  "order_id" INTEGER
+  "payment_method_id" INTEGER
+  "payment_amount" DECIMAL(10,2)
+
+Indexes {
+  (order_id, payment_method_id) [pk]
+}
+}
+
+Table "OrderShipping" {
+  "order_id" INTEGER
+  "shipping_id" INTEGER
+
+Indexes {
+  (order_id, shipping_id) [pk]
+}
+}
+
+Table "SubscriptionPlan" {
+  "plan_id" INTEGER [pk]
+  "plan_name" VARCHAR(255)
+  "description" TEXT
+}
+
+Table "CustomerSubscription" {
+  "customer_id" INTEGER
+  "plan_id" INTEGER
+  "start_date" TIMESTAMP
+  "end_date" TIMESTAMP
+
+Indexes {
+  (customer_id, plan_id) [pk]
+}
+}
+
+Ref:"Customer"."customer_id" < "Seller"."customer_id"
+Ref:"Order"."order_id" < "Seller"."order_id"
 Ref:"Category"."category_id" < "Item"."category_id"
 Ref:"Customer"."customer_id" < "Order"."customer_id"
 Ref:"Order"."order_id" < "ItemOrder"."order_id"
@@ -78,4 +128,11 @@ Ref:"Item"."item_id" < "ItemOrder"."item_id"
 Ref:"Customer"."customer_id" < "Rating"."customer_id"
 Ref:"Item"."item_id" < "Rating"."item_id"
 Ref:"Item"."item_id" < "HistoryUpdateItems"."item_id"
-
+Ref:"Order"."order_id" < "Shipping"."order_id"
+Ref:"Customer"."customer_id" < "PaymentMethod"."customer_id"
+Ref:"Order"."order_id" < "OrderPayment"."order_id"
+Ref:"PaymentMethod"."payment_method_id" < "OrderPayment"."payment_method_id"
+Ref:"Order"."order_id" < "OrderShipping"."order_id"
+Ref:"Shipping"."shipping_id" < "OrderShipping"."shipping_id"
+Ref:"Customer"."customer_id" < "CustomerSubscription"."customer_id"
+Ref:"SubscriptionPlan"."plan_id" < "CustomerSubscription"."plan_id"
