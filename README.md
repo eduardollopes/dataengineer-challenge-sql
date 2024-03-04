@@ -28,7 +28,7 @@ Finalmente, saia do console com o comando `.exit`
 ## Diagrama
 O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos, e tambem, a sugestão de tabelas pensando que poderiam ser uteis no armazenamento de dados para uma empresa do ecommerce.
 
-![Descrição da Imagem](/diagram/der.png)
+![Descrição da Imagem](/diagram/diagram-der.png)
 
 * `diagram/der.png`: Imagem do diagrama sugerido para resolver o desafio.
 * `diagram/diagram.txt`: Conteúdo gerado através do `create_tables.sql` em https://dbdiagram.io/
