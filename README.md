@@ -26,7 +26,7 @@ docker run -it challenge-sql
 Finalmente, saia do console com o comando `.exit`
 
 ## Diagrama
-O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos.
+O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos, e tambem, a sugestão de tabelas pensando que poderiam ser uteis no armazenamento de dados para uma empresa do ecommerce.
 
 ![Descrição da Imagem](/diagram/der.png)
 
