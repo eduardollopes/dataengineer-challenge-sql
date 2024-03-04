@@ -1,15 +1,15 @@
 -- ##################################################################################
--- 1.)  Listar los usuarios que cumplan años el día de hoy cuya 
---      cantidad de ventas realizadas en enero 2020 sea superior a 1500. 
+-- 1.)  Listar os usuários que fazem aniversário hoje e cujo 
+--      total de vendas realizadas em janeiro de 2020 seja superior a 1500. 
 -- ##################################################################################
 
--- A CTE was created with query execution performance in mind 
-WITH temp_sales_2020 as (
+-- Uma CTE foi criada com foco na performance da execução da consulta
+WITH temp_sales_2020 AS (
     SELECT 
         customer_id,
-        sum(total_order) as sum_total_order
+        SUM(total_order) AS sum_total_order
     FROM `Order`
-    WHERE strftime('%Y-%m', order_date) = '2020-01' -- Clause to take sales in January/2020
+    WHERE strftime('%Y-%m', order_date) = '2020-01' -- Cláusula para considerar as vendas em janeiro de 2020
     GROUP BY customer_id
 )
 SELECT
@@ -18,22 +18,22 @@ SELECT
     c.last_name,
     o.sum_total_order
 FROM Customer c
-INNER JOIN Seller s           ON c.customer_id = s.customer_id          -- This join is to identify customers who are sellers.
-INNER JOIN temp_sales_2020 o  ON s.customer_id = o.customer_id          -- This join is necessary to associate the orders (sales) made by the selling customers.
-WHERE strftime('%m-%d', c.birth_date) = strftime('%m-%d', 'now')  -- Clause to filter the day's birthdays                
+INNER JOIN Seller s           ON c.customer_id = s.customer_id    -- Join para identificar clientes que são vendedores.
+INNER JOIN temp_sales_2020 o  ON s.customer_id = o.customer_id    -- Join necessário para associar os pedidos (vendas) feitos pelos clientes vendedores.
+WHERE strftime('%m-%d', c.birth_date) = strftime('%m-%d', 'now')  -- Cláusula para filtrar os aniversariantes do dia                
 GROUP BY c.customer_id
 HAVING o.sum_total_order > 1500;
 
--- ##################################################################################
--- 2.)  Por cada mes del 2020, se solicita el top 5 de usuarios que más 
---      vendieron($) en la categoría Celulares. Se requiere el mes y año 
---      de análisis, nombre y apellido del vendedor, cantidad de ventas 
---      realizadas, cantidad de productos vendidos y el monto total transaccionado. 
--- ##################################################################################
 
--- A CTE was created with query execution performance in mind 
+-- ############################################################################################################
+-- 2.)  Para cada mês de 2020, é solicitado o top 5 de usuários que mais venderam ($) na categoria Celulares. 
+--      São necessários o mês e ano de análise, nome e sobrenome do vendedor, quantidade de vendas realizadas, 
+--      quantidade de produtos vendidos e o montante total transacionado. 
+-- ############################################################################################################
+
+-- Foi criada uma CTE com foco na performance da execução da consulta 
 WITH TopSellers AS (
-    -- The following query retrieves information about the top sellers of cell phones in each month of 2020.
+    -- A seguinte consulta recupera informações sobre os principais vendedores de celulares em cada mês de 2020.
     SELECT
         strftime('%Y-%m', ord.order_date) AS month_year,
         cus.customer_id,
@@ -43,25 +43,19 @@ WITH TopSellers AS (
         COUNT(itord.item_id) AS products_sold,
         SUM(itord.unit_price * itord.quantity) AS total_transaction
     FROM `Order`    ord
-    JOIN ItemOrder  itord   ON ord.order_id = itord.order_id     -- Join with ItemOrder table to associate orders with items and their quantities.
-    JOIN Item       it      ON itord.item_id = it.item_id        -- Join with Item table to retrieve info about items associated with the orders.
-    JOIN Category   cat     ON it.category_id = cat.category_id  -- Join with Category table to filter sales in the "Celulares" category.
-    JOIN Seller     sel     ON ord.customer_id = sel.customer_id -- Join with Seller table to identify customers who are also sellers.
-    JOIN Customer   cus     ON sel.customer_id = cus.customer_id -- Join with Customer table to get info about the sellers.
-    WHERE strftime('%Y', ord.order_date) = '2020'                -- Clause to take sales in 2020.
-    AND cat.description = 'Celulares'                            -- Filtering sales to the "Celulares" category
+    JOIN ItemOrder  itord   ON ord.order_id = itord.order_id     -- Join na tabela ItemOrder para associar pedidos a itens e suas quantidades.
+    JOIN Item       it      ON itord.item_id = it.item_id        -- Join na tabela Item para obter informações sobre itens associados aos pedidos.
+    JOIN Category   cat     ON it.category_id = cat.category_id  -- Join na tabela Category para filtrar vendas na categoria "Celulares".
+    JOIN Seller     sel     ON ord.customer_id = sel.customer_id -- Join na tabela Seller para identificar clientes que também são vendedores.
+    JOIN Customer   cus     ON sel.customer_id = cus.customer_id -- Join na tabela Customer para obter informações sobre os vendedores.
+    WHERE strftime('%Y', ord.order_date) = '2020'                -- Cláusula para considerar vendas em 2020.
+    AND cat.description = 'Celulares'                            -- Filtrando vendas para a categoria "Celulares".
     GROUP BY month_year, cus.customer_id
 )
--- The following query filters and ranks the top 5 sellers in each month based on total transaction amount.
-SELECT
-    month_year,
-    first_name,
-    last_name,
-    sales_count,
-    products_sold,
-    total_transaction
+-- A seguinte consulta filtra e classifica os 5 principais vendedores em cada mês com base no montante total da transação.
+SELECT *
 FROM (
-    -- Explanation: The subquery calculates the rankings for each seller within each month.
+    -- Explicação: A subconsulta calcula as classificações para cada vendedor dentro de cada mês.
     SELECT
         month_year,
         first_name,
@@ -69,12 +63,11 @@ FROM (
         sales_count,
         products_sold,
         total_transaction,
-        ROW_NUMBER() OVER (PARTITION BY month_year ORDER BY total_transaction DESC) AS rank -- Window function no create a ranking of salles
+        ROW_NUMBER() OVER (PARTITION BY month_year ORDER BY total_transaction DESC) AS rank -- Função de janela para criar uma classificação de vendas.
     FROM TopSellers
 ) ranked_sellers
-WHERE rank <= 5 -- Filtering the final result to include only the top 5 sellers in each month.
+WHERE rank <= 5 -- Filtrando o resultado final para incluir apenas os 5 principais vendedores em cada mês.
 ORDER BY month_year, total_transaction;
-
 
 -- ##################################################################################
 -- 3.)  Se solicita poblar una nueva tabla con el precio y estado de los 

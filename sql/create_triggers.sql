@@ -1,5 +1,5 @@
--- Contents of the file create_triggers.sql
--- Create a trigger for insertion into the HistoryUpdateItems table after each insertion into the Item table
+-- Conteúdo do arquivo create_triggers.sql
+-- Cria um gatilho para inserção na tabela HistoryUpdateItems após cada inserção na tabela Item
 CREATE TRIGGER after_item_insert
 AFTER INSERT ON Item
 FOR EACH ROW
@@ -8,7 +8,7 @@ BEGIN
     VALUES (NEW.item_id, NULL, NULL, 'INSERT', CURRENT_TIMESTAMP);
 END;
 
--- Create a trigger to update the HistoryUpdateItems table after each update to the Item table
+-- Cria um gatilho para atualizar a tabela HistoryUpdateItems após cada atualização na tabela Item
 CREATE TRIGGER after_item_update
 AFTER UPDATE ON Item
 FOR EACH ROW
@@ -17,7 +17,7 @@ BEGIN
     VALUES (NEW.item_id, OLD.price, OLD.status, 'UPDATE', CURRENT_TIMESTAMP);
 END;
 
--- Create a delete trigger in the HistoryUpdateItems table after each delete in the Item table
+-- Cria um gatilho de exclusão na tabela HistoryUpdateItems após cada exclusão na tabela Item
 CREATE TRIGGER after_item_delete
 AFTER DELETE ON Item
 FOR EACH ROW
