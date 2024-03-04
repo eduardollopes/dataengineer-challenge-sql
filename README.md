@@ -26,19 +26,19 @@ docker run -it challenge-sql
 Finalmente, saia do console com o comando `.exit`
 
 ## Diagrama
-O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos.
+O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos, e tambem, a sugestão de tabelas pensando que poderiam ser uteis no armazenamento de dados para uma empresa do ecommerce.
 
-![Descrição da Imagem](./diagrama/der.png)
+![Descrição da Imagem](/diagram/der.png)
 
-`diagram/der.png`: Image of the diagram suggested for solving the challenge.
-`diagram/diagram.txt`: Content generated through `create_tables.sql` at https://dbdiagram.io/
+* `diagram/der.png`: Imagem do diagrama sugerido para resolver o desafio.
+* `diagram/diagram.txt`: Conteúdo gerado através do `create_tables.sql` em https://dbdiagram.io/
 
 
 ## Scripts SQL
-`sql/create_table.sql`: Schema de tabelas para criação de um ambiente voltado para uma empresa de ecommerca.
-`sql/respuestas_negocio.sql`: Instruções SQL fornecendo soluções para perguntas do desafio.
-`sql/create_triggers`: Este script contém as triggers necessários para armazenar os eventos da tabela `Item`, para uma tabela `HistoryUpdateItems`.
-`sql/create_trigger_events.sql`: Este é um script para testar se os eventos estão ocorrendo conforme o esperado.
+* `sql/create_table.sql`: Schema de tabelas para criação de um ambiente voltado para uma empresa de ecommerca.
+* `sql/respuestas_negocio.sql`: Instruções SQL fornecendo soluções para perguntas do desafio.
+* `sql/create_triggers`: Este script contém as triggers necessários para armazenar os eventos da tabela `Item`, para uma tabela `HistoryUpdateItems`.
+* `sql/create_trigger_events.sql`: Este é um script para testar se os eventos estão ocorrendo conforme o esperado.
 
 ## Contribuições
 Sinta-se à vontade para contribuir abrindo problemas ou enviando solicitações pull.
