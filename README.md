@@ -28,7 +28,7 @@ Finalmente, saia do console com o comando `.exit`
 ## Diagrama
 O desafio contém uma proposta de modelagem de dados de acordo com as necessidades e requisitos sugeridos.
 
-![Descrição da Imagem](./diagrama/der.png)
+![Descrição da Imagem](/diagram/der.png)
 
 `diagram/der.png`: Image of the diagram suggested for solving the challenge.
 `diagram/diagram.txt`: Content generated through `create_tables.sql` at https://dbdiagram.io/
